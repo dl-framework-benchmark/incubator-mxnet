@@ -63,7 +63,7 @@ class Coco(Imdb):
         """
         assert self.image_set_index is not None, "Dataset not initialized"
         name = self.image_set_index[index]
-        image_file = os.path.join(self.image_dir, 'images', name)
+        image_file = os.path.join(self.image_dir, 'ImageSets', name)
         assert os.path.isfile(image_file), 'Path does not exist: {}'.format(image_file)
         return image_file
 
