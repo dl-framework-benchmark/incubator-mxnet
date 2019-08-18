@@ -121,7 +121,7 @@ if __name__ == '__main__':
         score = mod.score(eval_data, ['acc'])
         logging.info('epoch %d, accuracy = %s' % (epoch, score[0][1]))
         
-        mod.save_checkpoint("/output/checkpoint", epoch, save_optimizer_states=True)
+        mod.save_checkpoint("/output/wide_deep/checkpoint/checkpoint", epoch, save_optimizer_states=True)
         # reset the iterator for next pass of data
         data_iter.reset()
     
