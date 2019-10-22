@@ -35,6 +35,7 @@ if __name__ == '__main__':
     # parse args
     parser = argparse.ArgumentParser(description="train imagenet-1k",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--stop_iter_num', type=int, default=120, required=True)
     fit.add_fit_args(parser)
     data.add_data_args(parser)
     data.add_data_aug_args(parser)
@@ -62,5 +63,12 @@ if __name__ == '__main__':
     net = import_module('symbols.'+args.network)
     sym = net.get_symbol(**vars(args))
 
+    # early stop
+    def early_stop(batch_number):
+        def _callback(param):
+            """Stop at n'th batch"""
+            if param.nbatch == batch_number: exit(0)
+        return _callback
+
     # train
-    fit.fit(args, sym, data.get_rec_iter)
+    fit.fit(args, sym, data.get_rec_iter, batch_end_callback=early_stop(args.stop_iter_num))
